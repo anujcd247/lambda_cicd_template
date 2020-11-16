@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: "SAM template for demo lambda function"
+
+
+Globals:
+  Function:
+    Timeout: 10
+
+
+Resources:
+  NewFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+    #Name of the function
+      FunctionName: "MyNewFunction"
+    #specify code uri
+      CodeUri: ./
+    #update handler
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.8
+
+
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: "NewApplicationStack"
+    Description: "Recreating existing function"
+    Author: "anuj"
+
+
+Outputs:
+  NewFunction:
+    Description: "Demo lambda Function ARN"
+    Value: !GetAtt NewFunction.Arn
+  DemoFunctionIamRole:
+    Description: "Implicit IAM Role created for Demo function"
+    #below role : <function-logical-id>Role
+    Value: !GetAtt NewFunctionRole.Arn
